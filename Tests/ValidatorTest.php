@@ -7,7 +7,7 @@
  */
 use Schema\Validator\ArrayValidator;
 use Schema\Validator\ZendValidateAdapter;
-use Schema\Validator\Object;
+use Schema\Validator\ArrayAssoc;
 class ValidatorTest extends BaseTest
 {
 
@@ -22,29 +22,28 @@ class ValidatorTest extends BaseTest
 		$int = new ZendValidateAdapter('Int', 'El campo es Solo Numerico y se dio %value%');
 
 
-		$validator = new Object(array(
+		$validator = new ArrayAssoc(array(
 			'name' => $alpha,
 			'description' => $alpha,
 			'text' => $alphaNum,
-			'myObject' => new Object(array(
+			'myObject' => new ArrayAssoc(array(
 				'myObjectId' => $int,
 				'mySystems' => new ArrayValidator($alpha),
 			)),
 		));
 
 		$result = $validator->isValid(array(
-			'name' => 'Vicente4434',
-			'description' => 'descripcion4 de muchas 343cosas',
+			'name' => 'Vicente',
+			'description' => 'descripcion de muchas cosas',
 			'text' => 'texto yeah ',
 			'myObject' => array(
 				'myObjectId' => '455',
-				'mySystems' => array('linux9', 'windows9')
+				'mySystems' => array('linux', 'windows')
 			)
 		));
 
-		//$this->assertTrue($result);
+		$this->assertTrue($result);
 
-		echo print_r($validator->getErrors());
 	}
 
 
