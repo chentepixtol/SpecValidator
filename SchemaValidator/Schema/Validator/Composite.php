@@ -61,6 +61,11 @@ abstract class Composite implements Validator
 		return $args;
 	}
 
+	/**
+	 *
+	 * Enter description here ...
+	 * @param string $error
+	 */
 	public function addError($error)
 	{
 		if( is_array($error) ){
@@ -75,8 +80,15 @@ abstract class Composite implements Validator
 	 * @see Schema\Validator.Validator::getErrors()
 	 */
 	public function getErrors(){
-		return $this->errors;
+		return array_values($this->errors);
 	}
 
+	/**
+	 *
+	 * Clear errors
+	 */
+	public function clearErrors(){
+		$this->errors = array();
+	}
 
 }

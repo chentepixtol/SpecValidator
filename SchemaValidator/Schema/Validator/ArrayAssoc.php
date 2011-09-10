@@ -26,6 +26,7 @@ class ArrayAssoc extends Composite
 	 */
 	public function isValid($value)
 	{
+		$this->clearErrors();
 		$isValid = true;
 		foreach ($this->validators as $property => $validator)
 		{

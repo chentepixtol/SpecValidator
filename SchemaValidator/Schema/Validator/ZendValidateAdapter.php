@@ -24,6 +24,10 @@ class ZendValidateAdapter extends Composite
 	 */
 	protected $message;
 
+	/**
+	 *
+	 * @var mixed
+	 */
 	protected $lastValue;
 
 	/**
@@ -43,6 +47,7 @@ class ZendValidateAdapter extends Composite
 	 * @see Schema\Validator.Validator::isValid()
 	 */
 	public function isValid($value){
+		$this->clearErrors();
 		$this->lastValue = $value;
 		return \Zend_Validate::is($value, $this->classBaseName, $this->options);
 	}

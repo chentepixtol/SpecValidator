@@ -27,6 +27,7 @@ class OrValidator extends Composite
 	 */
 	public function isValid($value)
 	{
+		$this->clearErrors();
 		if( count($this->validators) == 0 ){
 			return true;
 		}

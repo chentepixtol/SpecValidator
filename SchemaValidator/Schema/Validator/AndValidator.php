@@ -27,6 +27,7 @@ class AndValidator extends Composite
 	 */
 	public function isValid($value)
 	{
+		$this->clearErrors();
 		$isValid = true;
 		foreach( $this->validators as $validator ){
 			if( $validator instanceof Validator && !$validator->isValid($value) ){
