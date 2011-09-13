@@ -5,11 +5,12 @@
  * @author chente
  *
  */
-use Schema\Validator\EmptyValidator;
-use Schema\Validator\Nullable;
-use Schema\Validator\ArrayValidator;
-use Schema\Validator\ZendValidateAdapter;
-use Schema\Validator\ArrayAssoc;
+use SpecValidator\Validator\ValidatorRegistry;
+use SpecValidator\Validator\EmptyValidator;
+use SpecValidator\Validator\Nullable;
+use SpecValidator\Validator\ArrayValidator;
+use SpecValidator\Validator\ZendValidateAdapter;
+use SpecValidator\Validator\ArrayAssocValidator;
 class ValidatorTest extends BaseTest
 {
 
@@ -19,8 +20,8 @@ class ValidatorTest extends BaseTest
 	 */
 	public function arrayTest()
 	{
-		$validator = new ArrayValidator(new ZendValidateAdapter('Int', "Valor invalido: %value%, se esperaba un entero"));
-		$validatorFloat = new ArrayValidator(new ZendValidateAdapter('Float', "Valor invalido: %value%, se esperaba un flotante"));
+		$validator = new ArrayValidator(ValidatorRegistry::get('int'));
+		$validatorFloat = new ArrayValidator(ValidatorRegistry::get('float'));
 
 		//valid
 		$this->assertTrue($validator->isValid(array('43', 4, 43)));
@@ -43,8 +44,8 @@ class ValidatorTest extends BaseTest
 	 */
 	public function nullableTest()
 	{
-		$nullable = new  Nullable();
-		$intValidator = new ZendValidateAdapter('Int', "Valor invalido: %value%, se esperaba un entero");
+		$nullable = ValidatorRegistry::get('null');
+		$intValidator = ValidatorRegistry::get('int');
 		$validator = $nullable->addOR($intValidator);
 
 		//valid
@@ -52,9 +53,12 @@ class ValidatorTest extends BaseTest
 		$this->assertTrue($validator->isValid(43));
 		$this->assertTrue($validator->isValid(null));
 
+		//invalid
 		$this->assertFalse($validator->isValid('string'));
 
 		$arrayValidator = $nullable->addOR(new ArrayValidator($intValidator));
+
+		//valid
 		$this->assertTrue($arrayValidator->isValid(array(4,5)));
 		$this->assertTrue($arrayValidator->isValid(array()));
 		$this->assertTrue($arrayValidator->isValid(null));
@@ -64,10 +68,42 @@ class ValidatorTest extends BaseTest
 	 *
 	 * @test
 	 */
+	public function multipleORs()
+	{
+		$get = ValidatorRegistry::getter();
+
+		$validator = $get('int')->addOR($get('empty'), $get('alpha'));
+		$this->assertTrue($validator->isValid(4));
+		$this->assertTrue($validator->isValid('34'));
+		$this->assertTrue($validator->isValid(null));
+		$this->assertTrue($validator->isValid('string'));
+	}
+
+	/**
+	 *
+	 * @test
+	 */
+	public function multipleANDs()
+	{
+		$get = ValidatorRegistry::getter();
+
+		$validator = $get('int')->not()->addAND($get('empty')->not(), $get('alpha'));
+		$this->assertEquals(3, $validator->count());
+		$this->assertFalse($validator->isEmpty());
+		$this->assertFalse($validator->isValid(4));
+		$this->assertFalse($validator->isValid('34'));
+		$this->assertFalse($validator->isValid(null));
+		$this->assertTrue($validator->isValid('string'));
+	}
+
+	/**
+	 *
+	 * @test
+	 */
 	public function emptyTest()
 	{
-		$empty = new  EmptyValidator();
-		$validator = $empty->addOR(new ZendValidateAdapter('Int', "Valor invalido: %value%, se esperaba un entero"));
+		$empty = ValidatorRegistry::get('empty');
+		$validator = $empty->addOR(ValidatorRegistry::get('int'));
 
 		//valid
 		$this->assertTrue($validator->isValid('43'));
@@ -83,18 +119,45 @@ class ValidatorTest extends BaseTest
 	 *
 	 * @test
 	 */
+	public function arrayAssoc()
+	{
+		$alpha = ValidatorRegistry::get('alpha');
+		$alnum = ValidatorRegistry::get('alnum');
+
+		$user = array(
+			'username' => 'chentepixtol',
+		);
+
+		$validator = new ArrayAssocValidator(array(
+			'username' => $alpha,
+			'password' => $alnum,
+		));
+
+		$this->assertFalse($validator->isValid($user));
+
+		$user['password'] = '123';
+		$this->assertTrue($validator->isValid($user));
+	}
+
+	/**
+	 *
+	 * @test
+	 */
 	public function complexTest()
 	{
-		$alpha = new ZendValidateAdapter('Alpha', 'Solo Letras y se dio %value%', array('allowWhiteSpace'=> true));
-		$alphaNum = new ZendValidateAdapter('Alnum', 'Solo Alfanumerico y se dio %value%', array('allowWhiteSpace'=> true));
-		$int = new ZendValidateAdapter('Int', 'El campo es Solo Numerico y se dio %value%');
-		$empty = new EmptyValidator();
+		$get = ValidatorRegistry::getter();
+		$this->assertTrue( ValidatorRegistry::getter() === ValidatorRegistry::getter() );
 
-		$validator = new ArrayAssoc(array(
+		$alpha = $get('alpha_ws');
+		$alphaNum = $get('alnum_ws');
+		$int = $get('int');
+		$empty = $get('empty');
+
+		$validator = new ArrayAssocValidator(array(
 			'name' => $alpha,
 			'description' => $empty->addOR($alpha),
 			'text' => $alphaNum,
-			'myObject' => new ArrayAssoc(array(
+			'myObject' => new ArrayAssocValidator(array(
 				'myObjectId' => $int,
 				'mySystems' => new ArrayValidator($alpha),
 			)),
@@ -111,7 +174,31 @@ class ValidatorTest extends BaseTest
 		));
 
 		$this->assertTrue($result);
+	}
 
+	/**
+	 *
+	 * @test
+	 */
+	public function not(){
+
+		$validator = ValidatorRegistry::get('null');
+		$this->assertTrue($validator->isValid(null));
+		$this->assertFalse($validator->isValid('string'));
+
+		$notNullValidator = $validator->not();
+		$this->assertFalse($notNullValidator->isValid(null));
+		$this->assertTrue($notNullValidator->isValid('string'));
+	}
+
+
+	/**
+	 *
+	 * @test
+	 */
+	public function notExists(){
+		$validator = ValidatorRegistry::get('not_exists');
+		$this->assertNull($validator);
 	}
 
 
