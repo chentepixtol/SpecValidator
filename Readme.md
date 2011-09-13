@@ -63,26 +63,38 @@ Specification
 --------------
 
 Se utiliza el patron Specification, con lo cual podemos hacer facilmente condiciones booleanas.
-
-$validatorInt = ...
-$validatorAlpha = ...
-$validatorNull = ...
-
-$validatorIntOrAlpha = $validatorInt->addOR($validatorAlpha);
-$validatorNotNull = $validatorNull->not();
+    
+    $validatorInt = ...
+    $validatorAlpha = ...
+    $validatorNull = ...
+    
+    $validatorIntOrAlpha = $validatorInt->addOR($validatorAlpha);
+    $validatorNotNull = $validatorNull->not();
 
 
 
 NESTED
 ------
 
+        $alpha = new ZendValidator('Alpha', "Valor invalido: %value%, se esperaban caracteres");
+        $alnum = new ZendValidator('Alnum', "Valor invalido: %value%, se esperaban caracteres alfanumericos");
+        $int = new ZendValidator('Int', "Valor invalido: %value%, se esperaban un entero");
+
         $validator = new ArrayAssocValidator(array(
-            'username' => new ZendValidator('Alpha', "Valor invalido: %value%, se esperaban caracteres"),
-            'password' => new ZendValidator('Alnum', "Valor invalido: %value%, se esperaban caracteres alfanumericos"),
+            'username' => $alpha,
+            'password' => $alnum,
             'address' => new ArrayAssocValidator(array(
-                'street' => new ZendValidator('Alpha', "Valor invalido: %value%, se esperaban caracteres"),
-                'zip' => new ZendValidator('Alnum', "Valor invalido: %value%, se esperaban caracteres alfanumericos"),
-            ),
+                'street' => $alpha,
+                'zip' => $int,
+            )),
         ));
-        ));
+        
+        $validator->isValid(array(
+            'username' => 'chentepixtol',
+            'password' => '123',
+            'address' => array(
+                'street' => 'calle falsa',
+                'zip' => '43678',
+            )
+        )); // true
 
