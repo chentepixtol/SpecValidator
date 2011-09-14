@@ -5,6 +5,7 @@
  * @author chente
  *
  */
+use SpecValidator\Validator\OptionalValidator;
 use SpecValidator\Validator\ValidatorRegistry;
 use SpecValidator\Validator\EmptyValidator;
 use SpecValidator\Validator\Nullable;
@@ -199,6 +200,21 @@ class ValidatorTest extends BaseTest
 	public function notExists(){
 		$validator = ValidatorRegistry::get('not_exists');
 		$this->assertNull($validator);
+	}
+
+	/**
+	 *
+	 * @test
+	 */
+	public function optional()
+	{
+		$int = ValidatorRegistry::get('int');
+		$optionalInt = new OptionalValidator($int);
+
+		$this->assertTrue($optionalInt->isValid('5'));
+		$this->assertTrue($optionalInt->isValid(5));
+		$this->assertTrue($optionalInt->isValid(null));
+		$this->assertFalse($optionalInt->isValid('abc'));
 	}
 
 
