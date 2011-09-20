@@ -86,6 +86,7 @@ class ValidatorRegistry
 		if( self::$runLazyLoad && is_callable(self::$lazyLoadFn) ){
 			call_user_func(self::$lazyLoadFn);
 			self::$lazyLoadFn = false;
+			self::$runLazyLoad = false;
 		}
 
 		return isset(self::$validators[$name]);
