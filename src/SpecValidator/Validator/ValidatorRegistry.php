@@ -24,43 +24,12 @@ class ValidatorRegistry
 
 	/**
 	 *
-	 * @var \Closure
-	 */
-	protected static $lazyLoadFn = null;
-
-	/**
-	 *
-	 * @var boolean
-	 */
-	protected static $runLazyLoad = false;
-
-	/**
-	 *
 	 * register
 	 * @param string $name
 	 * @param ValidatorInterface $validator
 	 */
 	public static function register($name, ValidatorInterface $validator){
 		self::$validators[$name] = $validator;
-	}
-
-	/**
-	 *
-	 * @param \Closure $fn
-	 */
-	public static function registerOnLazyLoad(\Closure $fn)
-	{
-		if( null == self::$lazyLoadFn ){
-			self::$runLazyLoad = true;
-			self::$lazyLoadFn = $fn;
-		}else{
-			$oldFn = self::$lazyLoadFn;
-			$newFn = function() use( &$oldFn, &$fn ) {
-				call_user_func($oldFn);
-				call_user_func($fn);
-			};
-			self::$lazyLoadFn = $newFn;
-		}
 	}
 
 	/**
@@ -83,12 +52,6 @@ class ValidatorRegistry
 	 */
 	public static function has($name)
 	{
-		if( self::$runLazyLoad && is_callable(self::$lazyLoadFn) ){
-			call_user_func(self::$lazyLoadFn);
-			self::$lazyLoadFn = false;
-			self::$runLazyLoad = false;
-		}
-
 		return isset(self::$validators[$name]);
 	}
 

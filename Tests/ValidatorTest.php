@@ -5,6 +5,7 @@
  * @author chente
  *
  */
+use SpecValidator\Validator\ZendValidator;
 use SpecValidator\Validator\OptionalValidator;
 use SpecValidator\Validator\ValidatorRegistry;
 use SpecValidator\Validator\EmptyValidator;
@@ -12,6 +13,8 @@ use SpecValidator\Validator\Nullable;
 use SpecValidator\Validator\ArrayValidator;
 use SpecValidator\Validator\ZendValidateAdapter;
 use SpecValidator\Validator\ArrayAssocValidator;
+use SpecValidator\Validator\InArrayValidator;
+
 class ValidatorTest extends BaseTest
 {
 
@@ -215,6 +218,23 @@ class ValidatorTest extends BaseTest
 		$this->assertTrue($optionalInt->isValid(5));
 		$this->assertTrue($optionalInt->isValid(null));
 		$this->assertFalse($optionalInt->isValid('abc'));
+	}
+
+	/**
+	 *
+	 * @test
+	 */
+	public function inArray()
+	{
+		$sos = array('linux', 'windows', 'mac');
+		$validator = new InArrayValidator($sos, 'System invalid');
+
+		$this->assertTrue($validator->isValid('linux'));
+		$this->assertTrue($validator->isValid('windows'));
+		$this->assertTrue($validator->isValid('mac'));
+
+		$this->assertFalse($validator->isValid('amiga'));
+		$this->assertFalse($validator->isValid('freebsd'));
 	}
 
 
