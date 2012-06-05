@@ -1,5 +1,7 @@
 <?php
 
+namespace SpecValidator\Test;
+
 /**
  *
  * @author chente
@@ -15,6 +17,11 @@ use SpecValidator\Validator\ZendValidateAdapter;
 use SpecValidator\Validator\ArrayAssocValidator;
 use SpecValidator\Validator\InArrayValidator;
 
+/**
+ *
+ * @author chente
+ *
+ */
 class ValidatorTest extends BaseTest
 {
 
@@ -28,18 +35,19 @@ class ValidatorTest extends BaseTest
         $validatorFloat = new ArrayValidator(ValidatorRegistry::get('float'));
 
         //valid
+        $this->assertTrue($validatorFloat->isValid(array(4.3, 4.5, 43.3)));
+
+        //valid
         $this->assertTrue($validator->isValid(array('43', 4, 43)));
         //invalid
         $this->assertFalse($validator->isValid(array('65', 'abc', 56)));
         $this->assertEquals(array('Valor invalido: abc, se esperaba un entero'), $validator->getErrors());
 
-        $validatorIntAndFloat = $validator->addOR($validatorFloat);
+        $validatorIntOrFloat = new ArrayValidator(ValidatorRegistry::get('int')->addOR(ValidatorRegistry::get('float')));
 
         //valid
-        $this->assertTrue($validatorIntAndFloat->isValid(array('3.4', 4.3, 43)));
-        //invalid
-
-        $this->assertFalse($validatorIntAndFloat->isValid(array('abc', 'de')));
+        $this->assertTrue($validatorIntOrFloat->isValid(array(4, 4.3, 43.7)));
+        $this->assertFalse($validatorIntOrFloat->isValid(array('abc', 'de', 5, 5.1)));
     }
 
     /**

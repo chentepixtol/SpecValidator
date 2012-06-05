@@ -47,7 +47,7 @@ class ZendValidator extends Validator
     public function isValid($value){
         $this->clearErrors();
         $this->lastValue = $value;
-        return \Zend_Validate::is($value, $this->classBaseName, $this->getOptions());
+        return \Zend\Validator\StaticValidator::execute($value, $this->classBaseName, $this->getOptions());
     }
 
     /**

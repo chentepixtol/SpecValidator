@@ -1,0 +1,23 @@
+{
+    "repositories": 
+        [{"type": "composer", "url": "http://packages.zendframework.com/"}],
+    "name": "chentepixtol/SpecValidator",
+    "type": "library",
+    "homepage": "https://github.com/chentepixtol/SpecValidator",
+    "version": "0.9.0",
+    "license": "MIT",
+    "require": {
+        "zendframework/zend-validator": "2.0.*",
+        "zendframework/zend-loader": "2.0.*",
+        "zendframework/zend-servicemanager": "2.0.*",
+        "zendframework/zend-registry": "2.0.*",
+        "zendframework/zend-locale": "2.0.*",
+        "zendframework/zend-cache": "2.0.*",
+        "zendframework/zend-eventmanager": "2.0.*",
+        "zendframework/zend-serializer": "2.0.*",
+        "zendframework/zend-filter": "2.0.*"
+    },
+    "autoload": {
+        "psr-0": { "SpecValidator": "src" }
+    }
+}

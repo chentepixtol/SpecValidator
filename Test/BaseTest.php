@@ -1,29 +1,21 @@
 <?php
 
+namespace SpecValidator\Test;
+
 use SpecValidator\Validator\NullValidator;
 use SpecValidator\Validator\EmptyValidator;
 use SpecValidator\Validator\Nullable;
 use SpecValidator\Validator\ValidatorRegistry;
 use SpecValidator\Validator\ZendValidator;
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use SpecValidator\Validator\String;
 use SpecValidator\Validator\Number;
-
-require_once 'vendor/Symfony/Component/ClassLoader/UniversalClassLoader.php';
-
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(array(
-    'SpecValidator' => 'src',
-));
-$loader->registerPrefix('Zend_', '/usr/share/php/library');
-$loader->register();
 
 /**
  *
  * @author chente
  *
  */
-abstract class BaseTest extends PHPUnit_Framework_TestCase
+abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

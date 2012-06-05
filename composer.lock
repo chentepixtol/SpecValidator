@@ -1,0 +1,53 @@
+{
+    "hash": "6b3461349fbdecb588479561f5585302",
+    "packages": [
+        {
+            "package": "zendframework/zend-cache",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-eventmanager",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-filter",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-loader",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-locale",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-registry",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-serializer",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-servicemanager",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-stdlib",
+            "version": "2.0.0-beta4"
+        },
+        {
+            "package": "zendframework/zend-validator",
+            "version": "2.0.0-beta4"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": [
+
+    ]
+}
