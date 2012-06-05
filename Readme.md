@@ -1,4 +1,5 @@
-SpecValidator
+SpecValidator  [![Build Status](https://secure.travis-ci.org/chentepixtol/SpecValidator.png?branch=master)](http://travis-ci.org/chentepixtol/SpecValidator)
+
 ---------------
 
 Es una herramienta que te permite hacer validaciones de manera facil y sencilla.
