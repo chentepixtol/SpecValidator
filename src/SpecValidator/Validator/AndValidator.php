@@ -15,21 +15,21 @@ namespace SpecValidator\Validator;
 class AndValidator extends CompositeValidator
 {
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
-		$isValid = true;
-		foreach( $this->getValidators() as $validator ){
-			if( $validator instanceof ValidatorInterface && !$validator->isValid($value) ){
-				$this->addError($validator->getErrors());
-				$isValid = false;
-			}
-		}
-		return $isValid;
-	}
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
+        $isValid = true;
+        foreach( $this->getValidators() as $validator ){
+            if( $validator instanceof ValidatorInterface && !$validator->isValid($value) ){
+                $this->addError($validator->getErrors());
+                $isValid = false;
+            }
+        }
+        return $isValid;
+    }
 
 }

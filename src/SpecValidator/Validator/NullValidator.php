@@ -15,20 +15,20 @@ namespace SpecValidator\Validator;
 class NullValidator extends Validator
 {
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
 
-		if( is_null($value) ){
-			return true;
-		}
+        if( is_null($value) ){
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 
 }

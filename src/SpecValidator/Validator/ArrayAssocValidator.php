@@ -15,25 +15,25 @@ namespace SpecValidator\Validator;
 class ArrayAssocValidator extends CompositeValidator
 {
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
-		$isValid = true;
-		foreach ($this->getValidators() as $property => $validator)
-		{
-			$val = isset($value[$property]) ? $value[$property] : null;
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
+        $isValid = true;
+        foreach ($this->getValidators() as $property => $validator)
+        {
+            $val = isset($value[$property]) ? $value[$property] : null;
 
-			if( $validator instanceof ValidatorInterface && !$validator->isValid($val)){
-				$this->addError($validator->getErrors());
-				$isValid = false;
-			}
-		}
-		return $isValid;
-	}
+            if( $validator instanceof ValidatorInterface && !$validator->isValid($val)){
+                $this->addError($validator->getErrors());
+                $isValid = false;
+            }
+        }
+        return $isValid;
+    }
 
 
 }

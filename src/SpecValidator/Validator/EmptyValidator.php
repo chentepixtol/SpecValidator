@@ -15,20 +15,20 @@ namespace SpecValidator\Validator;
 class EmptyValidator extends Validator
 {
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
 
-		if( empty($value) ){
-			return true;
-		}
+        if( empty($value) ){
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 
 }

@@ -15,21 +15,21 @@ namespace SpecValidator\Validator;
 class NotValidator extends CompositeValidator
 {
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
-		$isValid = false;
-		$validator = $this->getOne();
-		if( $validator->isValid($value) ){
-			$this->addError($validator->getErrors());
-			$isValid = true;
-		}
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
+        $isValid = false;
+        $validator = $this->getOne();
+        if( $validator->isValid($value) ){
+            $this->addError($validator->getErrors());
+            $isValid = true;
+        }
 
-		return !$isValid;
-	}
+        return !$isValid;
+    }
 
 }

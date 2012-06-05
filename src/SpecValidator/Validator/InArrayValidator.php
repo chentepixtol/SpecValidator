@@ -15,16 +15,16 @@ namespace SpecValidator\Validator;
 class InArrayValidator extends ZendValidator
 {
 
-	/**
-	 *
-	 *
-	 * @param array $haystack
-	 * @param string $message
-	 * @param array $options
-	 */
-	public function __construct($haystack, $message = null, array $options = array()){
-		$options['haystack'] = $haystack;
-		parent::__construct('InArray', $message, $options);
-	}
+    /**
+     *
+     *
+     * @param array $haystack
+     * @param string $message
+     * @param array $options
+     */
+    public function __construct($haystack, $message = null, array $options = array()){
+        $options['haystack'] = $haystack;
+        parent::__construct('InArray', $message, $options);
+    }
 
 }

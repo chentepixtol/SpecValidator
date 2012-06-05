@@ -15,47 +15,47 @@ namespace SpecValidator\Validator;
 class ZendValidator extends Validator
 {
 
-	/**
-	 *
-	 *
-	 * @var string
-	 */
-	protected $classBaseName;
+    /**
+     *
+     *
+     * @var string
+     */
+    protected $classBaseName;
 
-	/**
-	 *
-	 * @var mixed
-	 */
-	protected $lastValue;
+    /**
+     *
+     * @var mixed
+     */
+    protected $lastValue;
 
-	/**
-	 *
-	 *
-	 * @param string $classBaseName
-	 * @param array $options
-	 */
-	public function __construct($classBaseName, $message = null, array $options = array()){
-		$this->classBaseName = $classBaseName;
-		$this->setMessage($message);
-		$this->setOptions($options);
-	}
+    /**
+     *
+     *
+     * @param string $classBaseName
+     * @param array $options
+     */
+    public function __construct($classBaseName, $message = null, array $options = array()){
+        $this->classBaseName = $classBaseName;
+        $this->setMessage($message);
+        $this->setOptions($options);
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.Validator::isValid()
-	 */
-	public function isValid($value){
-		$this->clearErrors();
-		$this->lastValue = $value;
-		return \Zend_Validate::is($value, $this->classBaseName, $this->getOptions());
-	}
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.Validator::isValid()
+     */
+    public function isValid($value){
+        $this->clearErrors();
+        $this->lastValue = $value;
+        return \Zend_Validate::is($value, $this->classBaseName, $this->getOptions());
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.Composite::getErrors()
-	 */
-	public function getErrors(){
-		return str_replace('%value%', $this->lastValue, $this->getMessage());
-	}
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.Composite::getErrors()
+     */
+    public function getErrors(){
+        return str_replace('%value%', $this->lastValue, $this->getMessage());
+    }
 
 }

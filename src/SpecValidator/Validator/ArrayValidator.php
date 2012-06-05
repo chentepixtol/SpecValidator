@@ -14,30 +14,30 @@ namespace SpecValidator\Validator;
  */
 class ArrayValidator extends CompositeValidator
 {
-	/**
-	 * (non-PHPdoc)
-	 * @see SpecValidator\Validator.ValidatorInterface::isValid()
-	 */
-	public function isValid($value)
-	{
-		$this->clearErrors();
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::isValid()
+     */
+    public function isValid($value)
+    {
+        $this->clearErrors();
 
-		if( !is_array($value) ){
-			$this->addError("El valor propocionado no es un array");
-			return false;
-		}
+        if( !is_array($value) ){
+            $this->addError("El valor propocionado no es un array");
+            return false;
+        }
 
-		$validator = $this->getOne();
-		$isValid = true;
-		foreach ($value as $val){
-			if ( !$validator->isValid($val) ){
-				$this->addError($validator->getErrors());
-				$isValid = false;
-			}
-		}
+        $validator = $this->getOne();
+        $isValid = true;
+        foreach ($value as $val){
+            if ( !$validator->isValid($val) ){
+                $this->addError($validator->getErrors());
+                $isValid = false;
+            }
+        }
 
-		return $isValid;
-	}
+        return $isValid;
+    }
 
 
 }
