@@ -33,6 +33,14 @@ abstract class Validator implements ValidatorInterface
     protected $message = '';
 
     /**
+     *
+     * @param mixed $value
+     */
+    public function __invoke($value){
+        return $this->isValid($value);
+    }
+
+    /**
      * (non-PHPdoc)
      * @see SpecValidator\Validator.ValidatorInterface::addOR()
      */

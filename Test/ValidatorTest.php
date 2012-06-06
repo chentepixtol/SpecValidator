@@ -51,6 +51,20 @@ class ValidatorTest extends BaseTest
     }
 
     /**
+     * @test
+     */
+    public function callable(){
+        $int = ValidatorRegistry::get('int');
+
+        $this->assertTrue($int(5));
+        $this->assertFalse($int("string"));
+
+        $this->assertTrue(call_user_func_array($int, array(5)));
+        $this->assertFalse(call_user_func_array($int, array('string')));
+        $this->assertFalse(call_user_func_array($int->not(), array('555')));
+    }
+
+    /**
      *
      * @test
      */
