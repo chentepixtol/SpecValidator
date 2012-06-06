@@ -53,7 +53,7 @@ class ValidatorTest extends BaseTest
     /**
      * @test
      */
-    public function callable(){
+    public function fromCallable(){
         $int = ValidatorRegistry::get('int');
 
         $this->assertTrue($int(5));
