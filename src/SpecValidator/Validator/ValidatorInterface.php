@@ -16,7 +16,7 @@ interface ValidatorInterface
 {
 
     /**
-     *
+     * @param mixed $value
      * @return boolean
      */
     public function isValid($value);
@@ -27,6 +27,13 @@ interface ValidatorInterface
      * @return ValidatorInterface
      */
     public function addAND($validator);
+
+    /**
+     *
+     * @param mixed $value
+     * @throws \Exception
+     */
+    public function check($value);
 
     /**
      *

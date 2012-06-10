@@ -36,6 +36,16 @@ abstract class Validator implements ValidatorInterface
 
     /**
      *
+     * @param array $options
+     * @param string $message
+     */
+    public function __construct(array $options = array(), $message = ''){
+        $this->setOptions($options);
+        $this->setMessage($message);
+    }
+
+    /**
+     *
      * @param mixed $value
      */
     public function __invoke($value){
@@ -43,13 +53,13 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
-     *
-     * @param array $options
-     * @param string $message
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::check()
      */
-    public function __construct(array $options = array(), $message = ''){
-        $this->setOptions($options);
-        $this->setMessage($message);
+    public function check($value){
+        if( !$this->isValid($value) ){
+            throw new ErrorsException($this->getErrors());
+        }
     }
 
     /**
@@ -73,7 +83,16 @@ abstract class Validator implements ValidatorInterface
     public function __call($method, $args){
         $message = array_shift($args);
         $options = array_shift($args);
-        return $this->addAND(PluginLoader::factory($method, $options ?: array(), $message));
+
+        $isOr = preg_match('/^or/', $method);
+        $method = $isOr ? preg_replace('/^or/', '', $method) : $method;
+
+        $validator = PluginLoader::factory($method, $options ?: array(), $message);
+        if( $isOr ){
+            return $this->addOR($validator);
+        }
+
+        return $this->addAND($validator);
     }
 
     /**

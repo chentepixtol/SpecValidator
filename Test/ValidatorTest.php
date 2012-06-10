@@ -7,8 +7,10 @@ namespace SpecValidator\Test;
  * @author chente
  *
  */
+use SpecValidator\Validator\ErrorsException;
 use SpecValidator\Validator\ZendValidator;
 use SpecValidator\Validator\OptionalValidator;
+use SpecValidator\Validator\Validator;
 use SpecValidator\ValidatorRegistry;
 use SpecValidator\Validator\EmptyValidator;
 use SpecValidator\Validator\Nullable;
@@ -103,6 +105,19 @@ class ValidatorTest extends BaseTest
         $this->assertTrue($validator->isValid('34'));
         $this->assertTrue($validator->isValid(null));
         $this->assertTrue($validator->isValid('string'));
+    }
+
+    /**
+     * @test
+     */
+    public function check(){
+        $int = Validator::int("Debe de ser entero");
+        try {
+            $int->check("string");
+            $this->fail("Debe de ser lanzada una exception");
+        } catch (ErrorsException $e) {
+            $this->assertEquals(array("Debe de ser entero"), $e->getErrors());
+        }
     }
 
     /**

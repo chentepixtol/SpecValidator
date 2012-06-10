@@ -92,6 +92,18 @@ class PluginTest extends BaseTest
     }
 
     /**
+     * @test
+     */
+    public function floatOrInt(){
+        $validator = Validator::int("Debe de ser entero")
+            ->orFloat("O debe de ser flotante");
+        $this->assertTrue($validator->isValid(2));
+        $this->assertTrue($validator->isValid('2'));
+        $this->assertTrue($validator->isValid(2.3));
+        $this->assertFalse($validator->isValid("String"));
+    }
+
+    /**
      *
      * @return array
      */
