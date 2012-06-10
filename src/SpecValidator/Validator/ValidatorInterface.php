@@ -43,6 +43,14 @@ interface ValidatorInterface
 
     /**
      *
+     * @return ValidatorInterface
+     */
+    public function optional();
+
+
+
+    /**
+     *
      * @param string $message
      */
     public function setMessage($message);

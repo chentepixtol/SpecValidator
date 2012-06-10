@@ -9,7 +9,7 @@ namespace SpecValidator\Test;
  */
 use SpecValidator\Validator\ZendValidator;
 use SpecValidator\Validator\OptionalValidator;
-use SpecValidator\Validator\ValidatorRegistry;
+use SpecValidator\ValidatorRegistry;
 use SpecValidator\Validator\EmptyValidator;
 use SpecValidator\Validator\Nullable;
 use SpecValidator\Validator\ArrayValidator;
@@ -236,29 +236,13 @@ class ValidatorTest extends BaseTest
         $int = ValidatorRegistry::get('int');
         $optionalInt = new OptionalValidator($int);
 
+        $this->assertEquals($optionalInt, $int->optional());
+
         $this->assertTrue($optionalInt->isValid('5'));
         $this->assertTrue($optionalInt->isValid(5));
         $this->assertTrue($optionalInt->isValid(null));
         $this->assertFalse($optionalInt->isValid('abc'));
     }
-
-    /**
-     *
-     * @test
-     */
-    public function inArray()
-    {
-        $sos = array('linux', 'windows', 'mac');
-        $validator = new InArrayValidator($sos, 'System invalid');
-
-        $this->assertTrue($validator->isValid('linux'));
-        $this->assertTrue($validator->isValid('windows'));
-        $this->assertTrue($validator->isValid('mac'));
-
-        $this->assertFalse($validator->isValid('amiga'));
-        $this->assertFalse($validator->isValid('freebsd'));
-    }
-
 
 }
 

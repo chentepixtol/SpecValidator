@@ -29,13 +29,11 @@ class ZendValidator extends Validator
     protected $lastValue;
 
     /**
-     *
-     *
-     * @param string $classBaseName
      * @param array $options
+     * @param string $message
      */
-    public function __construct($classBaseName, $message = null, array $options = array()){
-        $this->classBaseName = $classBaseName;
+    public function __construct(array $options = array(), $message = 'The value "%value%" is wrong'){
+        $this->classBaseName = $options['validator'];
         $this->setMessage($message);
         $this->setOptions($options);
     }
@@ -47,15 +45,14 @@ class ZendValidator extends Validator
     public function isValid($value){
         $this->clearErrors();
         $this->lastValue = $value;
-        return \Zend\Validator\StaticValidator::execute($value, $this->classBaseName, $this->getOptions());
-    }
 
-    /**
-     * (non-PHPdoc)
-     * @see SpecValidator\Validator.Composite::getErrors()
-     */
-    public function getErrors(){
-        return str_replace('%value%', $this->lastValue, $this->getMessage());
+        $isValid = \Zend\Validator\StaticValidator::execute($value, $this->classBaseName, $this->getOptions());
+
+        if( !$isValid ){
+            $this->addError(str_replace('%value%', (string) $this->lastValue, $this->getMessage()));
+        }
+
+        return $isValid;
     }
 
 }

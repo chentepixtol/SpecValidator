@@ -2,6 +2,8 @@
 
 namespace SpecValidator\Validator;
 
+use SpecValidator\PluginLoader;
+
 /**
  *
  * Validator
@@ -41,6 +43,40 @@ abstract class Validator implements ValidatorInterface
     }
 
     /**
+     *
+     * @param array $options
+     * @param string $message
+     */
+    public function __construct(array $options = array(), $message = ''){
+        $this->setOptions($options);
+        $this->setMessage($message);
+    }
+
+    /**
+     *
+     * @param string $method
+     * @param array $args
+     * @return ValidatorInterface
+     */
+    public static function __callstatic($method, $args){
+        $message = array_shift($args);
+        $options = array_shift($args);
+        return PluginLoader::factory($method, $options ?: array(), $message);
+    }
+
+    /**
+     *
+     * @param string $method
+     * @param array $args
+     * @return ValidatorInterface
+     */
+    public function __call($method, $args){
+        $message = array_shift($args);
+        $options = array_shift($args);
+        return $this->addAND(PluginLoader::factory($method, $options ?: array(), $message));
+    }
+
+    /**
      * (non-PHPdoc)
      * @see SpecValidator\Validator.ValidatorInterface::addOR()
      */
@@ -72,6 +108,14 @@ abstract class Validator implements ValidatorInterface
      */
     public function not(){
         return new NotValidator($this);
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see SpecValidator\Validator.ValidatorInterface::optional()
+     */
+    public function optional(){
+        return new OptionalValidator($this);
     }
 
     /**

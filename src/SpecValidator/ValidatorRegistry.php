@@ -1,6 +1,8 @@
 <?php
 
-namespace SpecValidator\Validator;
+namespace SpecValidator;
+
+use SpecValidator\Validator\ValidatorInterface;
 
 /**
  *
